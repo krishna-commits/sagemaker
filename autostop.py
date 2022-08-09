@@ -26,7 +26,7 @@ current_time = datetime.now()
 print('Current Time: ', current_time)
 n = 2
 # Add 2 hours to datetime object containing current time
-future_time = current_time + timedelta(minutes=n) 
+future_time = current_time + timedelta(minutes=5) 
 
 # Usage
 usageInfo = """Usage:
