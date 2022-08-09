@@ -20,6 +20,14 @@ import json
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
+from datetime import timedelta
+# Get current time in local timezone
+current_time = datetime.now()
+print('Current Time: ', current_time)
+n = 2
+# Add 2 hours to datetime object containing current time
+future_time = current_time + timedelta(minutes=n) 
+
 # Usage
 usageInfo = """Usage:
 This scripts checks if a notebook is idle for X seconds if it does, it'll stop the notebook:
@@ -70,7 +78,7 @@ if missingConfiguration:
 
 def is_idle(last_activity):
     last_activity = datetime.strptime(last_activity,"%Y-%m-%dT%H:%M:%S.%fz")
-    if (datetime.now() - last_activity).total_seconds() > time:
+    if (datetime.now() - last_activity).total_seconds() > future_time:
         print('Notebook is idle. Last activity time = ', last_activity)
         return True
     else:
