@@ -20,14 +20,6 @@ import json
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-from datetime import timedelta
-# Get current time in local timezone
-current_time = datetime.now()
-print('Current Time: ', current_time)
-n = 2
-# Add 2 hours to datetime object containing current time
-future_time = current_time + timedelta(minutes=5) 
-
 # Usage
 usageInfo = """Usage:
 This scripts checks if a notebook is idle for X seconds if it does, it'll stop the notebook:
@@ -78,7 +70,7 @@ if missingConfiguration:
 
 def is_idle(last_activity):
     last_activity = datetime.strptime(last_activity,"%Y-%m-%dT%H:%M:%S.%fz")
-    if (datetime.now() - last_activity).total_seconds() > future_time:
+    if (datetime.now() - last_activity).total_seconds() > time:
         print('Notebook is idle. Last activity time = ', last_activity)
         return True
     else:
@@ -123,15 +115,6 @@ else:
 if idle:
     print('Closing idle notebook')
     client = boto3.client('sagemaker')
-    response = client.create_app(
-    DomainId='d-7yyxfjq1lj6g',
-    UserProfileName='krishnasagemaker',
-    AppType='KernelGateway',
-    AppName='test-sagemaker',
-    ResourceSpec={
-        'InstanceType': 'system'|'ml.t3.micro'|'ml.t3.small'|'ml.t3.medium',
-    }
-)
     client.stop_notebook_instance(
         NotebookInstanceName=get_notebook_name()
     )
